@@ -1,0 +1,97 @@
+print('Comienza el juego #.')#impriminos la pantalla para que comience el juego
+print('reglas de movimientos 0,0 arriba izquierda. 0,1 arriba al centro. 0,2 arriba a la derecha ')#reglas
+print('reglas de movimientos 1,0 medio izquierda. 1,1 medio al centro. 1,2 medio a la derecha ')#reglas
+print('reglas de movimientos 2,0 abajo izquierda. 2,1 abajo al centro. 2,2 abajo a la derecha ')#reglas
+
+
+
+
+def creaMatriz(n, m):# definimos crear matriz como recursivo ya que se tendra que estar llamando hasta que finalice
+    matriz = [] #creo mi variable matriz
+    for i in range(n): #creo mi ciclo
+        a = [''] * m # variable a
+        matriz.append(a) #no salirse de la matriz
+    return matriz #regresa la matriz
+
+
+
+
+def imprimirMatriz(Matriz): #definimos crear imprimir matriz para estar viendo las actualizaciones del gato #
+  for i in range(len(Matriz)): #ciclo for
+        print('[', end='') #imprimir la matriz
+        for j in range(len(Matriz[i])): #
+            if str(Matriz[i][j] != ''):
+                print('{:<3s}'.format(str(Matriz[i][j])), end='')
+            else:
+                print('{:<3s}'.format(str(i) + ',' + str(j)), end='')
+        print(']')
+
+
+
+
+hayVictoria = False
+tablero = creaMatriz(3, 3)
+
+
+
+
+def chequearVictoria(tablero, letra, X, Y):
+    contadorfilas = 0
+    contadorcolumnas = 0
+    contadordiagonalascendente = 0
+    contadordiagonaldescendente = 0
+    hayVictoria = ""
+
+
+    if (X != Y):
+        for i in range(len(tablero)):
+            if tablero[X][i] == letra:
+                contadorfilas += 1
+
+
+        for j in range(len(tablero[0])):
+            if tablero[j][Y] == letra:
+                contadorcolumnas += 1
+
+
+    else:
+
+
+        for i in range(len(tablero)):
+            if tablero[i][i] == letra:
+                contadordiagonaldescendente += 1
+
+
+        for j in range(len(tablero)):
+            contador = 0
+            contador += 1
+            if tablero[0 + contador][(len(tablero)) - contador]:
+                contadordiagonalascendente += 1
+
+
+    if contadorfilas == len(tablero) or contadorcolumnas == len(tablero) or contadordiagonalascendente == len(
+            tablero) or contadordiagonaldescendente == len(tablero):
+        hayVictoria = True
+
+
+    return hayVictoria
+
+
+while hayVictoria == False:
+    print('')
+    posicionXYdeX = str(input('Para poner X, introduzca la posición de la fila-columna, (x, y):'))
+    print('')
+    XYX = posicionXYdeX.split(',')
+    tablero[int(XYX[0])][int(XYX[1])] = 'X'
+    imprimirMatriz(tablero)
+    if chequearVictoria(tablero, 'X', int(XYX[0]), int(XYX[1])):
+        break
+    print('')
+    posicionXYdeO = str(input('Para poner O, introduzca la posición fila-columna, (x,y):'))
+    print('')
+    XYO = posicionXYdeO.split(',')
+    tablero[int(XYO[0])][int(XYO[1])] = 'O'
+    imprimirMatriz(tablero)
+    if chequearVictoria(tablero, 'O', int(XYO[0]), int(XYO[1])):
+        break
+print('¡Hay ganador! - Juego terminado')
